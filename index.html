@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧼 Seifenrechner</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+    }
+    .rechner {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 480px;
+      width: 100%;
+      text-align: left;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+    select, input {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 4px;
+      font-size: 1rem;
+    }
+    button {
+      display: block;
+      width: 100%;
+      margin-top: 1.5rem;
+      padding: 0.8rem;
+      background: #4CAF50;
+      color: #fff;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #43a047;
+    }
+    .ergebnis {
+      margin-top: 1.5rem;
+      background: #f0f8f0;
+      padding: 1rem;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      text-align: center;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="rechner">
+    <h1>🧼 Seifenrechner</h1>
+
+    <label for="lauge">Lauge:</label>
+    <select id="lauge">
+      <option value="naoh">NaOH – feste Seife</option>
+      <option value="koh">KOH – flüssige Seife</option>
+    </select>
+
+    <label>Fett 1:</label>
+    <select id="fett1">
+      <option value="0.134">Olivenöl (0,134)</option>
+      <option value="0.183">Kokosöl (0,183)</option>
+      <option value="0.133">Rapsöl (0,133)</option>
+      <option value="0.136">Sonnenblumenöl (0,136)</option>
+      <option value="0.138">Leinöl (0,138)</option>
+      <option value="0.141">Schweineschmalz (0,141)</option>
+      <option value="0.141">Rindertalg (0,141)</option>
+      <option value="0.128">Sheabutter (0,128)</option>
+      <option value="0.069">Bienenwachs (0,069)</option>
+    </select>
+    <input id="menge1" type="number" placeholder="Menge in g">
+
+    <label>Fett 2 (optional):</label>
+    <select id="fett2">
+      <option value="0">– keines –</option>
+      <option value="0.134">Olivenöl (0,134)</option>
+      <option value="0.183">Kokosöl (0,183)</option>
+      <option value="0.133">Rapsöl (0,133)</option>
+      <option value="0.136">Sonnenblumenöl (0,136)</option>
+      <option value="0.138">Leinöl (0,138)</option>
+      <option value="0.141">Schweineschmalz (0,141)</option>
+      <option value="0.141">Rindertalg (0,141)</option>
+      <option value="0.128">Sheabutter (0,128)</option>
+      <option value="0.069">Bienenwachs (0,069)</option>
+    </select>
+    <input id="menge2" type="number" placeholder="Menge in g">
+
+    <label>Fett 3 (optional):</label>
+    <select id="fett3">
+      <option value="0">– keines –</option>
+      <option value="0.134">Olivenöl (0,134)</option>
+      <option value="0.183">Kokosöl (0,183)</option>
+      <option value="0.133">Rapsöl (0,133)</option>
+      <option value="0.136">Sonnenblumenöl (0,136)</option>
+      <option value="0.138">Leinöl (0,138)</option>
+      <option value="0.141">Schweineschmalz (0,141)</option>
+      <option value="0.141">Rindertalg (0,141)</option>
+      <option value="0.128">Sheabutter (0,128)</option>
+      <option value="0.069">Bienenwachs (0,069)</option>
+    </select>
+    <input id="menge3" type="number" placeholder="Menge in g">
+
+    <label>Überfettung (%):</label>
+    <input id="ueberfettung" type="number" value="7" min="0" max="20">
+
+    <label>Wasser-zu-Lauge-Verhältnis:</label>
+    <select id="wasserverh">
+      <option value="2.3">2,3 : 1 (feste Seife, wenig Wasser)</option>
+      <option value="2.5" selected>2,5 : 1 (Standard)</option>
+      <option value="2.8">2,8 : 1 (etwas mehr Wasser)</option>
+      <option value="3.0">3,0 : 1 (für Anfänger)</option>
+    </select>
+
+    <button onclick="berechneSeife()">Berechnen</button>
+
+    <div class="ergebnis" id="ergebnis">Bitte Werte eingeben und auf „Berechnen“ klicken.</div>
+
+    <footer>⚠️ Ergebnisse ohne Gewähr – bitte immer doppelt prüfen!</footer>
+  </div>
+
+  <script>
+    function berechneSeife() {
+      const fett1 = parseFloat(document.getElementById("fett1").value);
+      const menge1 = parseFloat(document.getElementById("menge1").value) || 0;
+      const fett2 = parseFloat(document.getElementById("fett2").value);
+      const menge2 = parseFloat(document.getElementById("menge2").value) || 0;
+      const fett3 = parseFloat(document.getElementById("fett3").value);
+      const menge3 = parseFloat(document.getElementById("menge3").value) || 0;
+      const ueberfettung = parseFloat(document.getElementById("ueberfettung").value);
+      const wasserverh = parseFloat(document.getElementById("wasserverh").value);
+      const laugeTyp = document.getElementById("lauge").value;
+
+      const summe = (menge1 * fett1) + (menge2 * fett2) + (menge3 * fett3);
+      let lauge = summe * (1 - ueberfettung / 100);
+      let wasser = 0;
+
+      if (laugeTyp === "koh") {
+        lauge = lauge * 1.403;
+      }
+      wasser = lauge * wasserverh;
+
+      if (isNaN(lauge) || lauge <= 0) {
+        document.getElementById("ergebnis").innerHTML = "Bitte mindestens ein Fett mit Menge eingeben.";
+        return;
+      }
+
+      const laugeName = laugeTyp === "koh" ? "KOH" : "NaOH";
+      document.getElementById("ergebnis").innerHTML =
+        "🧪 Benötigte " + laugeName + "-Menge: <strong>" + lauge.toFixed(2) + " g</strong><br>" +
+        "💧 Wassermenge: <strong>" + wasser.toFixed(2) + " g</strong>";
+    }
+  </script>
+</body>
+</html>
+
